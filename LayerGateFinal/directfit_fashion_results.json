@@ -1,0 +1,105 @@
+{
+  "rows": [
+    {
+      "idx": 4658,
+      "group": "plain",
+      "complexity": 0.01720561273396015,
+      "mse_full": 0.004440567921847105,
+      "mse_no_fine": 0.008104627020657063,
+      "psnr_full": 23.525614826891072,
+      "fine_value": 0.0036640590988099575
+    },
+    {
+      "idx": 6601,
+      "group": "plain",
+      "complexity": 0.01811317726969719,
+      "mse_full": 0.012798570096492767,
+      "mse_no_fine": 0.018140485510230064,
+      "psnr_full": 18.92838548624922,
+      "fine_value": 0.005341915413737297
+    },
+    {
+      "idx": 1844,
+      "group": "plain",
+      "complexity": 0.018749726936221123,
+      "mse_full": 0.010535295121371746,
+      "mse_no_fine": 0.021759968250989914,
+      "psnr_full": 19.77353294152887,
+      "fine_value": 0.011224673129618168
+    },
+    {
+      "idx": 7615,
+      "group": "plain",
+      "complexity": 0.019305702298879623,
+      "mse_full": 0.008769230917096138,
+      "mse_no_fine": 0.012374847196042538,
+      "psnr_full": 20.5703849364736,
+      "fine_value": 0.0036056162789463997
+    },
+    {
+      "idx": 8530,
+      "group": "busy",
+      "complexity": 0.4649694859981537,
+      "mse_full": 0.0043960739858448505,
+      "mse_no_fine": 0.012960545718669891,
+      "psnr_full": 23.569350070188456,
+      "fine_value": 0.00856447173282504
+    },
+    {
+      "idx": 3052,
+      "group": "busy",
+      "complexity": 0.46727684140205383,
+      "mse_full": 0.0019972422160208225,
+      "mse_no_fine": 0.03956262022256851,
+      "psnr_full": 26.995692627695796,
+      "fine_value": 0.03756537800654769
+    },
+    {
+      "idx": 4203,
+      "group": "busy",
+      "complexity": 0.4933544397354126,
+      "mse_full": 0.0020698190201073885,
+      "mse_no_fine": 0.04549439623951912,
+      "psnr_full": 26.840676265260917,
+      "fine_value": 0.04342457721941173
+    },
+    {
+      "idx": 9067,
+      "group": "busy",
+      "complexity": 0.49386560916900635,
+      "mse_full": 0.0029827095568180084,
+      "mse_no_fine": 0.02874477580189705,
+      "psnr_full": 25.253890342720045,
+      "fine_value": 0.02576206624507904
+    }
+  ],
+  "plain": {
+    "fine_value_mean": 0.0059590659802779555,
+    "fine_value_min": 0.0036056162789463997,
+    "fine_value_max": 0.011224673129618168,
+    "fine_value_median": 0.005341915413737297,
+    "psnr_full_mean": 20.699479547785693
+  },
+  "busy": {
+    "fine_value_mean": 0.028829123300965875,
+    "fine_value_min": 0.00856447173282504,
+    "fine_value_max": 0.04342457721941173,
+    "fine_value_median": 0.03756537800654769,
+    "psnr_full_mean": 25.664902326466304
+  },
+  "window": {
+    "exists": true,
+    "soft_exists": true,
+    "price_low": 0.005341915413737297,
+    "price_high": 0.03756537800654769,
+    "note": "lambda_door = price / n_surviving_fine_packets"
+  },
+  "config": {
+    "data_dir": "./fmnist",
+    "n_per": 4,
+    "steps": 300,
+    "packets": "20,40,80",
+    "out": "directfit_fashion_results.json",
+    "cpu": false
+  }
+}

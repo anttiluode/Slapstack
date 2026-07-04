@@ -1,0 +1,115 @@
+{
+  "log": [
+    {
+      "phase": "paint",
+      "epoch": 0,
+      "lam": 0.0,
+      "rec": 0.10156993438368259,
+      "open_rate": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "open_to_close": 0,
+      "close_to_open": 0
+    },
+    {
+      "phase": "paint",
+      "epoch": 1,
+      "lam": 0.0,
+      "rec": 0.06318477881343468,
+      "open_rate": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "open_to_close": 0,
+      "close_to_open": 0
+    },
+    {
+      "phase": "slam",
+      "epoch": 2,
+      "lam": 0.05,
+      "rec": 0.052859869826099144,
+      "open_rate": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "open_to_close": 0,
+      "close_to_open": 0
+    },
+    {
+      "phase": "slam",
+      "epoch": 3,
+      "lam": 0.05,
+      "rec": 0.07627232405154602,
+      "open_rate": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "open_to_close": 768,
+      "close_to_open": 0
+    },
+    {
+      "phase": "release",
+      "epoch": 4,
+      "lam": 0.0,
+      "rec": 0.12692578914372818,
+      "open_rate": [
+        0.8828125,
+        1.0,
+        0.73046875
+      ],
+      "open_to_close": 0,
+      "close_to_open": 669
+    },
+    {
+      "phase": "release",
+      "epoch": 5,
+      "lam": 0.0,
+      "rec": 0.06340175073431886,
+      "open_rate": [
+        1.0,
+        1.0,
+        0.921875
+      ],
+      "open_to_close": 0,
+      "close_to_open": 79
+    },
+    {
+      "phase": "release",
+      "epoch": 6,
+      "lam": 0.0,
+      "rec": 0.056001600202011025,
+      "open_rate": [
+        1.0,
+        1.0,
+        0.95703125
+      ],
+      "open_to_close": 0,
+      "close_to_open": 9
+    }
+  ],
+  "verdict": {
+    "doors_closed_in_slam": 768,
+    "doors_reopened_in_release": 757,
+    "two_way": true,
+    "rec_end_paint": 0.06318477881343468,
+    "rec_end_release": 0.056001600202011025
+  },
+  "config": {
+    "data_dir": "./fmnist",
+    "limit": 3000,
+    "batch": 128,
+    "epochs_paint": 2,
+    "epochs_slam": 2,
+    "epochs_release": 3,
+    "lam_slam": 0.05,
+    "layer_clamp": 2.5,
+    "lr": 0.002,
+    "out": "door_mechanics_results.json",
+    "cpu": false
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "mse": 0.035432392353914224,
+  "psnr": 14.505995236186333,
+  "avg_active": 140.0,
+  "spearman_count_vs_complexity": -0.040596939722778114,
+  "door_open_rate_per_layer": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "per_class": {
+    "tshirt": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.06465195119380951,
+      "fine_door_open": 1.0
+    },
+    "trouser": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.0689627081155777,
+      "fine_door_open": 1.0
+    },
+    "pullover": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.08905284106731415,
+      "fine_door_open": 1.0
+    },
+    "dress": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.06673973798751831,
+      "fine_door_open": 1.0
+    },
+    "coat": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.05917055532336235,
+      "fine_door_open": 1.0
+    },
+    "sandal": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.10897769033908844,
+      "fine_door_open": 1.0
+    },
+    "shirt": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.09801342338323593,
+      "fine_door_open": 1.0
+    },
+    "sneaker": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.07193482667207718,
+      "fine_door_open": 1.0
+    },
+    "bag": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.07562709599733353,
+      "fine_door_open": 1.0
+    },
+    "ankleboot": {
+      "avg_active": 140.0,
+      "avg_complexity": 0.0460302010178566,
+      "fine_door_open": 1.0
+    }
+  },
+  "matched_rate": {
+    "k": 140,
+    "psnr_adaptive": 14.50599526481289,
+    "psnr_uniform": 14.50599526481289,
+    "psnr_adaptive_plain_decile": 14.664697927340313,
+    "psnr_uniform_plain_decile": 14.664697927340313,
+    "psnr_adaptive_busy_decile": 14.71560200877324,
+    "psnr_uniform_busy_decile": 14.71560200877324
+  },
+  "door_log": [
+    {
+      "epoch": 0,
+      "lam": 0.0,
+      "open_to_close": 0,
+      "close_to_open": 0,
+      "open_rate_per_layer": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 1,
+      "lam": 0.0,
+      "open_to_close": 0,
+      "close_to_open": 0,
+      "open_rate_per_layer": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 2,
+      "lam": 0.0003,
+      "open_to_close": 0,
+      "close_to_open": 0,
+      "open_rate_per_layer": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 3,
+      "lam": 0.0006,
+      "open_to_close": 0,
+      "close_to_open": 0,
+      "open_rate_per_layer": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 4,
+      "lam": 0.0006,
+      "open_to_close": 0,
+      "close_to_open": 0,
+      "open_rate_per_layer": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 5,
+      "lam": 0.0006,
+      "open_to_close": 0,
+      "close_to_open": 0,
+      "open_rate_per_layer": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "config": {
+    "data_dir": "./fmnist",
+    "out": "out_smoke",
+    "limit": 3000,
+    "limit_test": 1000,
+    "batch": 128,
+    "epochs_paint": 2,
+    "epochs_prune": 4,
+    "lr": 0.002,
+    "beta": 0.001,
+    "lambda_l0": 0.0006,
+    "layer_clamp": 2.5,
+    "packets": "20,40,80",
+    "latent": 64,
+    "workers": 0,
+    "cpu": false
+  },
+  "door_summary": {
+    "total_open_to_close": 0,
+    "total_close_to_open": 0,
+    "two_way": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "corridor": {
+    "realized_plain_median": 0.00010772049427032471,
+    "realized_plain_p90": 0.0001963973045349121,
+    "realized_busy_median": 0.00042212754487991333,
+    "realized_corridor_exists": true,
+    "suggested_door_price": 0.0003092624247074127
+  },
+  "verdict": {
+    "tried_price": 0.02,
+    "frac_images_below_tried_price": 1.0,
+    "spearman_delta_vs_complexity": 0.5124622451161339,
+    "amplitude_ratio_busy_over_plain": 1.7430733442306519,
+    "delta_deciles": [
+      0.00010772049427032471,
+      0.00011461228132247925,
+      0.00011692196130752563,
+      0.00013911724090576172,
+      0.00015707314014434814,
+      0.00017201900482177734,
+      0.00023145973682403564,
+      0.00029497966170310974,
+      0.00037484243512153625,
+      0.00042212754487991333
+    ],
+    "H1_rational_all_open": false,
+    "H2_noise_stalemate": true
+  },
+  "delta_mean": 0.00022055732551962137,
+  "config": {
+    "ckpt": "out_tiny/model.pt",
+    "data_dir": "./fmnist",
+    "batch": 256,
+    "packets": "20,40,80",
+    "latent": 64,
+    "tried_price": 0.02,
+    "out": "loophole_fashion_results.json",
+    "cpu": false
+  }
+}

@@ -1,0 +1,178 @@
+[
+ {
+  "tag": "start",
+  "psnr": 24.76,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep3",
+  "psnr": 18.52,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep6",
+  "psnr": 18.52,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep9",
+  "psnr": 18.52,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep12",
+  "psnr": 18.53,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep15",
+  "psnr": 18.52,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep18",
+  "psnr": 18.53,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep21",
+  "psnr": 18.52,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep24",
+  "psnr": 18.53,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep27",
+  "psnr": 18.53,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ },
+ {
+  "tag": "refine ep30",
+  "psnr": 18.52,
+  "plain": 9.0,
+  "busy": 9.0,
+  "layers_plain": [
+   6.0,
+   0.0,
+   3.0
+  ],
+  "layers_busy": [
+   6.0,
+   0.0,
+   3.0
+  ]
+ }
+]

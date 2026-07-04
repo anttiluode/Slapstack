@@ -1,0 +1,254 @@
+[
+ {
+  "tag": "recon ep3",
+  "psnr": 24.34,
+  "plain": 124.9,
+  "busy": 124.9,
+  "layers_plain": [
+   20.0,
+   40.0,
+   64.9
+  ],
+  "layers_busy": [
+   20.0,
+   40.0,
+   64.9
+  ],
+  "tex_painted": 0.813,
+  "mu_std": 0.034
+ },
+ {
+  "tag": "recon ep6",
+  "psnr": 26.36,
+  "plain": 126.0,
+  "busy": 126.0,
+  "layers_plain": [
+   20.0,
+   40.0,
+   66.0
+  ],
+  "layers_busy": [
+   20.0,
+   40.0,
+   66.0
+  ],
+  "tex_painted": 0.885,
+  "mu_std": 0.028
+ },
+ {
+  "tag": "recon ep9",
+  "psnr": 26.98,
+  "plain": 125.0,
+  "busy": 125.0,
+  "layers_plain": [
+   20.0,
+   40.0,
+   65.0
+  ],
+  "layers_busy": [
+   20.0,
+   40.0,
+   65.0
+  ],
+  "tex_painted": 0.883,
+  "mu_std": 0.024
+ },
+ {
+  "tag": "recon ep12",
+  "psnr": 27.21,
+  "plain": 125.0,
+  "busy": 125.0,
+  "layers_plain": [
+   20.0,
+   40.0,
+   65.0
+  ],
+  "layers_busy": [
+   20.0,
+   40.0,
+   65.0
+  ],
+  "tex_painted": 0.852,
+  "mu_std": 0.021
+ },
+ {
+  "tag": "prune ep2",
+  "psnr": 27.55,
+  "plain": 113.0,
+  "busy": 113.0,
+  "layers_plain": [
+   20.0,
+   40.0,
+   53.0
+  ],
+  "layers_busy": [
+   20.0,
+   40.0,
+   53.0
+  ],
+  "tex_painted": 0.855,
+  "mu_std": 0.02
+ },
+ {
+  "tag": "prune ep4",
+  "psnr": 27.58,
+  "plain": 110.0,
+  "busy": 110.0,
+  "layers_plain": [
+   20.0,
+   40.0,
+   50.0
+  ],
+  "layers_busy": [
+   20.0,
+   40.0,
+   50.0
+  ],
+  "tex_painted": 0.911,
+  "mu_std": 0.019
+ },
+ {
+  "tag": "prune ep6",
+  "psnr": 27.92,
+  "plain": 102.0,
+  "busy": 102.0,
+  "layers_plain": [
+   20.0,
+   38.0,
+   44.0
+  ],
+  "layers_busy": [
+   20.0,
+   38.0,
+   44.0
+  ],
+  "tex_painted": 0.876,
+  "mu_std": 0.018
+ },
+ {
+  "tag": "prune ep8",
+  "psnr": 24.09,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.72,
+  "mu_std": 0.018
+ },
+ {
+  "tag": "prune ep10",
+  "psnr": 24.55,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.741,
+  "mu_std": 0.017
+ },
+ {
+  "tag": "prune ep12",
+  "psnr": 24.81,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.754,
+  "mu_std": 0.017
+ },
+ {
+  "tag": "prune ep14",
+  "psnr": 24.86,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.749,
+  "mu_std": 0.016
+ },
+ {
+  "tag": "prune ep16",
+  "psnr": 24.96,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.743,
+  "mu_std": 0.016
+ },
+ {
+  "tag": "prune ep18",
+  "psnr": 25.04,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.732,
+  "mu_std": 0.015
+ },
+ {
+  "tag": "prune ep20",
+  "psnr": 24.76,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "tex_painted": 0.735,
+  "mu_std": 0.015
+ }
+]

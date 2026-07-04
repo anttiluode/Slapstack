@@ -1,0 +1,178 @@
+[
+ {
+  "tag": "start",
+  "psnr": 24.76,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep1",
+  "psnr": 24.72,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep2",
+  "psnr": 24.73,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep3",
+  "psnr": 24.69,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep4",
+  "psnr": 24.71,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep5",
+  "psnr": 24.71,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep6",
+  "psnr": 24.73,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep7",
+  "psnr": 24.7,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep8",
+  "psnr": 24.7,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep9",
+  "psnr": 24.73,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ },
+ {
+  "tag": "refine ep10",
+  "psnr": 24.71,
+  "plain": 28.0,
+  "busy": 28.0,
+  "layers_plain": [
+   19.0,
+   3.0,
+   6.0
+  ],
+  "layers_busy": [
+   19.0,
+   3.0,
+   6.0
+  ]
+ }
+]

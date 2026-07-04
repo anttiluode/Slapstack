@@ -1,0 +1,82 @@
+[
+ {
+  "tag": "pre-prune",
+  "psnr": 18.72,
+  "plain": 95.0,
+  "busy": 95.2,
+  "layers_plain": [
+   19.3,
+   37.6,
+   38.1
+  ],
+  "layers_busy": [
+   19.3,
+   37.6,
+   38.3
+  ]
+ },
+ {
+  "tag": "prune ep4",
+  "psnr": 18.49,
+  "plain": 32.0,
+  "busy": 32.0,
+  "layers_plain": [
+   15.0,
+   13.0,
+   4.0
+  ],
+  "layers_busy": [
+   15.0,
+   13.0,
+   4.0
+  ]
+ },
+ {
+  "tag": "prune ep8",
+  "psnr": 18.59,
+  "plain": 31.0,
+  "busy": 31.0,
+  "layers_plain": [
+   15.0,
+   12.0,
+   4.0
+  ],
+  "layers_busy": [
+   15.0,
+   12.0,
+   4.0
+  ]
+ },
+ {
+  "tag": "prune ep12",
+  "psnr": 18.56,
+  "plain": 31.0,
+  "busy": 31.0,
+  "layers_plain": [
+   15.0,
+   12.0,
+   4.0
+  ],
+  "layers_busy": [
+   15.0,
+   12.0,
+   4.0
+  ]
+ },
+ {
+  "tag": "prune ep16",
+  "psnr": 18.37,
+  "plain": 30.0,
+  "busy": 30.0,
+  "layers_plain": [
+   15.0,
+   11.0,
+   4.0
+  ],
+  "layers_busy": [
+   15.0,
+   11.0,
+   4.0
+  ]
+ }
+]

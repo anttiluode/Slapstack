@@ -1,0 +1,114 @@
+[
+ {
+  "tag": "resume",
+  "psnr": 18.53,
+  "plain": 30.0,
+  "busy": 30.0,
+  "layers_plain": [
+   15.0,
+   11.0,
+   4.0
+  ],
+  "layers_busy": [
+   15.0,
+   11.0,
+   4.0
+  ]
+ },
+ {
+  "tag": "ep2 (held-out)",
+  "psnr": 18.48,
+  "plain": 24.0,
+  "busy": 24.0,
+  "layers_plain": [
+   15.0,
+   8.0,
+   1.0
+  ],
+  "layers_busy": [
+   15.0,
+   8.0,
+   1.0
+  ]
+ },
+ {
+  "tag": "ep4 (held-out)",
+  "psnr": 18.5,
+  "plain": 24.0,
+  "busy": 24.0,
+  "layers_plain": [
+   15.0,
+   8.0,
+   1.0
+  ],
+  "layers_busy": [
+   15.0,
+   8.0,
+   1.0
+  ]
+ },
+ {
+  "tag": "ep6 (held-out)",
+  "psnr": 18.49,
+  "plain": 24.0,
+  "busy": 24.0,
+  "layers_plain": [
+   15.0,
+   8.0,
+   1.0
+  ],
+  "layers_busy": [
+   15.0,
+   8.0,
+   1.0
+  ]
+ },
+ {
+  "tag": "ep8 (held-out)",
+  "psnr": 18.5,
+  "plain": 24.0,
+  "busy": 24.0,
+  "layers_plain": [
+   15.0,
+   8.0,
+   1.0
+  ],
+  "layers_busy": [
+   15.0,
+   8.0,
+   1.0
+  ]
+ },
+ {
+  "tag": "ep10 (held-out)",
+  "psnr": 18.51,
+  "plain": 24.0,
+  "busy": 24.0,
+  "layers_plain": [
+   15.0,
+   8.0,
+   1.0
+  ],
+  "layers_busy": [
+   15.0,
+   8.0,
+   1.0
+  ]
+ },
+ {
+  "tag": "ep12 (held-out)",
+  "psnr": 18.5,
+  "plain": 24.0,
+  "busy": 24.0,
+  "layers_plain": [
+   15.0,
+   8.0,
+   1.0
+  ],
+  "layers_busy": [
+   15.0,
+   8.0,
+   1.0
+  ]
+ }
+]

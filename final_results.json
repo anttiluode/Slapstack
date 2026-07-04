@@ -1,0 +1,182 @@
+[
+ {
+  "tag": "recon ep3",
+  "psnr": 20.86,
+  "plain": 60.0,
+  "busy": 60.0,
+  "layers_plain": [
+   20.0,
+   24.0,
+   16.0
+  ],
+  "layers_busy": [
+   20.0,
+   24.0,
+   16.0
+  ],
+  "tex_painted": 0.065,
+  "mu_std": 0.043
+ },
+ {
+  "tag": "recon ep6",
+  "psnr": 21.41,
+  "plain": 60.0,
+  "busy": 60.0,
+  "layers_plain": [
+   20.0,
+   24.0,
+   16.0
+  ],
+  "layers_busy": [
+   20.0,
+   24.0,
+   16.0
+  ],
+  "tex_painted": 0.078,
+  "mu_std": 0.033
+ },
+ {
+  "tag": "recon ep9",
+  "psnr": 21.56,
+  "plain": 60.0,
+  "busy": 60.0,
+  "layers_plain": [
+   20.0,
+   24.0,
+   16.0
+  ],
+  "layers_busy": [
+   20.0,
+   24.0,
+   16.0
+  ],
+  "tex_painted": 0.084,
+  "mu_std": 0.028
+ },
+ {
+  "tag": "prune ep2",
+  "psnr": 17.4,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.024
+ },
+ {
+  "tag": "prune ep4",
+  "psnr": 17.52,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.022
+ },
+ {
+  "tag": "prune ep6",
+  "psnr": 17.53,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.02
+ },
+ {
+  "tag": "prune ep8",
+  "psnr": 17.54,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.018
+ },
+ {
+  "tag": "prune ep10",
+  "psnr": 17.53,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.017
+ },
+ {
+  "tag": "prune ep12",
+  "psnr": 17.54,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.016
+ },
+ {
+  "tag": "prune ep14",
+  "psnr": 17.54,
+  "plain": 2.0,
+  "busy": 2.0,
+  "layers_plain": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   2.0,
+   0.0,
+   0.0
+  ],
+  "tex_painted": 0.0,
+  "mu_std": 0.015
+ }
+]

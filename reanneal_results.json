@@ -1,0 +1,146 @@
+[
+ {
+  "tag": "re-anneal start",
+  "psnr": 20.27,
+  "plain": 132.0,
+  "busy": 132.9,
+  "layers_plain": [
+   17.0,
+   36.8,
+   78.2
+  ],
+  "layers_busy": [
+   17.0,
+   37.0,
+   78.9
+  ]
+ },
+ {
+  "tag": "ep3",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep6",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep9",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep12",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep15",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep18",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep21",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ },
+ {
+  "tag": "ep24",
+  "psnr": 19.62,
+  "plain": 14.0,
+  "busy": 14.0,
+  "layers_plain": [
+   14.0,
+   0.0,
+   0.0
+  ],
+  "layers_busy": [
+   14.0,
+   0.0,
+   0.0
+  ]
+ }
+]

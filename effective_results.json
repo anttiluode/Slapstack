@@ -1,0 +1,26 @@
+{
+ "0.001": {
+  "plain": 28.0,
+  "busy": 28.0,
+  "fine_plain": 6.0,
+  "fine_busy": 6.0,
+  "skip_cost_plain": 0.0,
+  "skip_cost_busy": 0.0
+ },
+ "0.01": {
+  "plain": 28.0,
+  "busy": 28.0,
+  "fine_plain": 6.0,
+  "fine_busy": 6.0,
+  "skip_cost_plain": 0.0,
+  "skip_cost_busy": 0.0
+ },
+ "0.05": {
+  "plain": 28.0,
+  "busy": 28.0,
+  "fine_plain": 6.0,
+  "fine_busy": 6.0,
+  "skip_cost_plain": 0.0,
+  "skip_cost_busy": 0.0
+ }
+}

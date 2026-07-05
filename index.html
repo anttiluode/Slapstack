@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>splatstack — direct-fit editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f131a; --panel:#161c26; --panel2:#1b2330; --line:#27303f;
+  --ink:#dde5f0; --mut:#8794a6; --dim:#5a6577;
+  --coarse:#e8a33d; --mid:#3fc6c0; --fine:#c07bf0;
+  --ok:#7fd08a; --warn:#e8734f;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --disp:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.45}
+button,select,input{font-family:var(--mono);font-size:12px}
+button{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:6px 10px;cursor:pointer}
+button:hover{border-color:var(--mut)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--mid);outline-offset:1px}
+button.primary{background:#223146;border-color:#33507a}
+button.on{border-color:var(--ok);color:var(--ok)}
+header{display:flex;align-items:baseline;gap:14px;padding:14px 18px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:.02em}
+header .sub{color:var(--mut);font-size:12px}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 18px 40px}
+.grid{display:grid;grid-template-columns:1fr 1fr 300px;gap:14px}
+@media(max-width:980px){.grid{grid-template-columns:1fr 1fr}.side{grid-column:1/-1}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+.card h2{font-family:var(--disp);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.canvasbox{position:relative;width:100%;aspect-ratio:1;background:#000;border-radius:5px;overflow:hidden}
+.canvasbox canvas{position:absolute;inset:0;width:100%;height:100%}
+#glyphs{cursor:crosshair;touch-action:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.stat{display:flex;justify-content:space-between;gap:8px;padding:2px 0;border-bottom:1px dashed #232c3a}
+.stat b{font-weight:500}
+.stat .v{color:var(--ink)}
+.lc{color:var(--coarse)} .lm{color:var(--mid)} .lf{color:var(--fine)}
+.rail{margin-top:14px}
+.rail label{display:flex;justify-content:space-between;color:var(--mut);font-size:11px;margin-bottom:3px}
+input[type=range]{width:100%;appearance:none;height:22px;background:transparent}
+input[type=range]::-webkit-slider-runnable-track{height:6px;background:linear-gradient(90deg,#233042,#3a2530);border-radius:3px}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:14px;height:18px;margin-top:-6px;background:var(--ink);border-radius:3px;border:1px solid var(--line)}
+input[type=range].g::-webkit-slider-runnable-track{background:#233042}
+.lambda-rail{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:10px;margin-top:12px}
+.lambda-rail .big{font-size:15px}
+.deathtape{display:flex;height:10px;border-radius:2px;overflow:hidden;margin-top:6px;background:#0a0d12}
+.deathtape span{height:100%}
+.hint{color:var(--dim);font-size:11px;margin-top:6px}
+.pk{margin-top:4px}
+.pk .none{color:var(--dim)}
+footer{color:var(--dim);font-size:11px;max-width:1180px;margin:0 auto;padding:0 18px 30px}
+a{color:var(--mid)}
+.legend{display:flex;gap:12px;font-size:11px;color:var(--mut);margin-top:6px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+</style>
+</head>
+<body>
+<header>
+  <h1>splatstack / direct-fit editor</h1>
+  <span class="sub">no encoder — per-image optimization of Gabor packets, warm-started. Every number on screen is measured live.</span>
+</header>
+
+<div class="wrap">
+  <div class="row" style="margin:0 0 12px">
+    <button id="btnUpload" class="primary">Load image</button>
+    <input type="file" id="file" accept="image/*" hidden>
+    <button id="btnCam">Start webcam</button>
+    <button id="btnSnap" hidden>Freeze frame</button>
+    <button id="btnPlain">Synthetic: plain face</button>
+    <button id="btnBusy">Synthetic: busy face</button>
+    <span style="flex:1"></span>
+    <button id="btnRun" class="on">Fitting: on</button>
+    <button id="btnReinit">Reinit packets</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Target</h2>
+      <div class="canvasbox"><canvas id="cvT" width="64" height="64" style="image-rendering:auto"></canvas></div>
+      <div class="hint" id="srcinfo">fit resolution 64×64 · center-cropped</div>
+    </div>
+
+    <div class="card">
+      <h2>Reconstruction <span id="npk" style="color:var(--dim);text-transform:none;letter-spacing:0"></span></h2>
+      <div class="canvasbox">
+        <canvas id="cvR" width="64" height="64"></canvas>
+        <canvas id="glyphs" width="640" height="640"></canvas>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--coarse)"></i>coarse 1.2–4 c/img</span>
+        <span><i style="background:var(--mid)"></i>mid 4–10</span>
+        <span><i style="background:var(--fine)"></i>fine 10–22</span>
+      </div>
+      <div class="row">
+        <button id="btnGlyph" class="on">Glyphs: on</button>
+        <span class="hint">click a glyph to select · drag to move (pauses fit)</span>
+      </div>
+    </div>
+
+    <div class="card side">
+      <h2>Ledger</h2>
+      <div class="stat"><b>PSNR</b><span class="v" id="psnr">—</span></div>
+      <div class="stat"><b>step</b><span class="v" id="step">0</span></div>
+      <div class="stat"><b>ms / step</b><span class="v" id="mspstep">—</span></div>
+      <div class="stat"><b class="lc">coarse active</b><span class="v" id="ac0">—</span></div>
+      <div class="stat"><b class="lm">mid active</b><span class="v" id="ac1">—</span></div>
+      <div class="stat"><b class="lf">fine active</b><span class="v" id="ac2">—</span></div>
+      <div class="stat"><b>pruned by λ</b><span class="v" id="npruned">0</span></div>
+
+      <div class="lambda-rail">
+        <label><span>λ — L0 price per packet</span><span class="big" id="lamval">0</span></label>
+        <input type="range" id="lam" min="0" max="1000" value="0">
+        <div class="deathtape" id="tape" title="packets sorted by marginal value; dark = pruned at current λ"></div>
+        <div class="hint">marginal value = exact ΔMSE of removing that packet alone (one-at-a-time estimate; joint removal is not additive). Slide right and watch texture defend itself, then die past its value — the price cliff, live. Survivors keep adapting; two-way by construction.</div>
+      </div>
+
+      <div class="rail"><label><span class="lc">coarse gain (render only)</span><span id="g0v">1.00</span></label><input type="range" class="g" id="g0" min="0" max="200" value="100"></div>
+      <div class="rail"><label><span class="lm">mid gain</span><span id="g1v">1.00</span></label><input type="range" class="g" id="g1" min="0" max="200" value="100"></div>
+      <div class="rail"><label><span class="lf">fine gain</span><span id="g2v">1.00</span></label><input type="range" class="g" id="g2" min="0" max="200" value="100"></div>
+
+      <h2 style="margin-top:16px">Selected packet</h2>
+      <div class="pk" id="pkpanel"><span class="none">none — click a glyph</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Built on <a href="https://github.com/anttiluode/Slapstack">Slapstack</a> [V]s only: dictionary sufficiency + population pruning + the λ cliff. The killed parts (amortized per-image gates) are deliberately absent — fitting here is per-image gradient descent, warm-started across webcam frames. Antti Luode (PerceptionLab) · implementation Claude.
+</footer>
+
+<video id="vid" hidden playsinline></video>
+
+<script>
+"use strict";
+/* ================= engine ================= */
+const FIT = 64, N = FIT*FIT, NC = N*3;
+const LAYERS = [
+  {n:16, fmin:1.2, fmax:4,  smin:0.06,  smax:0.45, color:'#e8a33d'},
+  {n:40, fmin:4,   fmax:10, smin:0.028, smax:0.16, color:'#3fc6c0'},
+  {n:84, fmin:10,  fmax:22, smin:0.014, smax:0.075,color:'#c07bf0'},
+];
+const NP = LAYERS.reduce((s,l)=>s+l.n,0);
+const TAU = Math.PI*2;
+
+// packet params (normalized coords)
+const px=new Float32Array(NP), py=new Float32Array(NP),
+      ls=new Float32Array(NP), th=new Float32Array(NP),
+      lf=new Float32Array(NP), ph=new Float32Array(NP),
+      ar=new Float32Array(NP), ag=new Float32Array(NP), ab=new Float32Array(NP);
+const layerOf=new Uint8Array(NP);
+const alive=new Uint8Array(NP), pruned=new Uint8Array(NP), locked=new Uint8Array(NP);
+const mval=new Float32Array(NP); // marginal value ΔMSE of removal
+const dc=new Float32Array(3);
+
+// Adam state: 9 params per packet + 3 dc
+const NPAR = 9;
+const mAd=new Float32Array(NP*NPAR), vAd=new Float32Array(NP*NPAR);
+const mDC=new Float32Array(3), vDC=new Float32Array(3);
+let adamT=0;
+const B1=0.9,B2=0.99,EPS=1e-8,LR=0.02;
+
+const EXbuf=new Float32Array(FIT); // scratch: separable envelope row
+const target=new Float32Array(NC);
+const recon=new Float32Array(NC);
+const res=new Float32Array(NC);
+let mse=1, stepCount=0;
+
+function initPackets(){
+  let k=0;
+  for(let L=0;L<LAYERS.length;L++){
+    const l=LAYERS[L], g=Math.ceil(Math.sqrt(l.n));
+    for(let i=0;i<l.n;i++,k++){
+      layerOf[k]=L;
+      px[k]=((i%g)+0.5)/g + (Math.random()-0.5)*0.5/g;
+      py[k]=((i/g|0)+0.5)/g + (Math.random()-0.5)*0.5/g;
+      const f=l.fmin*Math.pow(l.fmax/l.fmin,Math.random());
+      lf[k]=Math.log(f);
+      ls[k]=Math.log(Math.min(l.smax,Math.max(l.smin,0.55/f)));
+      th[k]=Math.random()*Math.PI;
+      ph[k]=Math.random()*TAU;
+      ar[k]=ag[k]=ab[k]=0;
+      alive[k]=1; pruned[k]=0; locked[k]=0; mval[k]=0;
+    }
+  }
+  mAd.fill(0);vAd.fill(0);mDC.fill(0);vDC.fill(0);adamT=0;stepCount=0;
+  // dc = mean of target
+  dc[0]=dc[1]=dc[2]=0;
+  for(let i=0;i<N;i++){dc[0]+=target[i*3];dc[1]+=target[i*3+1];dc[2]+=target[i*3+2];}
+  dc[0]/=N;dc[1]/=N;dc[2]/=N;
+}
+
+function winOf(k){ // pixel window of packet k
+  const s=Math.exp(ls[k]), r=Math.max(2,Math.ceil(3*s*FIT));
+  const cx=px[k]*FIT-0.5, cy=py[k]*FIT-0.5;
+  return [Math.max(0,Math.round(cx-r)),Math.min(FIT-1,Math.round(cx+r)),
+          Math.max(0,Math.round(cy-r)),Math.min(FIT-1,Math.round(cy+r))];
+}
+
+function renderInto(buf, useGains){
+  buf.fill(0);
+  for(let i=0;i<N;i++){buf[i*3]=dc[0];buf[i*3+1]=dc[1];buf[i*3+2]=dc[2];}
+  for(let k=0;k<NP;k++){
+    if(!alive[k]||pruned[k])continue;
+    const gmul=useGains?gains[layerOf[k]]:1;
+    if(gmul===0)continue;
+    const s=Math.exp(ls[k]), inv2s2=1/(2*s*s), f=Math.exp(lf[k]);
+    const ct=Math.cos(th[k]), st=Math.sin(th[k]);
+    const [x0,x1,y0,y1]=winOf(k);
+    const Ar=ar[k]*gmul,Ag=ag[k]*gmul,Ab=ab[k]*gmul;
+    // separable envelope + carrier recurrence along x
+    const nx=x1-x0+1, Ex=EXbuf;
+    const dx0=(x0+0.5)/FIT-px[k], stepx=1/FIT;
+    for(let c=0;c<nx;c++){const dx=dx0+c*stepx;Ex[c]=Math.exp(-dx*dx*inv2s2);}
+    const dA=TAU*f*ct*stepx, cdA=Math.cos(dA), sdA=Math.sin(dA);
+    for(let yy=y0;yy<=y1;yy++){
+      const dy=(yy+0.5)/FIT-py[k];
+      const Ey=Math.exp(-dy*dy*inv2s2);
+      if(Ey<1e-4)continue;
+      let arg=TAU*f*(ct*dx0+st*dy)+ph[k];
+      let C=Math.cos(arg),S=Math.sin(arg);
+      let j=(yy*FIT+x0)*3;
+      for(let c=0;c<nx;c++,j+=3){
+        const E=Ey*Ex[c];
+        if(E>=1e-4){
+          const w=E*C;
+          buf[j]+=Ar*w;buf[j+1]+=Ag*w;buf[j+2]+=Ab*w;
+        }
+        const C2=C*cdA-S*sdA;S=S*cdA+C*sdA;C=C2;
+      }
+    }
+  }
+}
+
+function fitStep(){
+  renderInto(recon,false);
+  let e=0;
+  for(let i=0;i<NC;i++){const r=recon[i]-target[i];res[i]=r;e+=r*r;}
+  mse=e/NC;
+  const sc=2/NC;
+  adamT++;
+  const bc1=1-Math.pow(B1,adamT), bc2=1-Math.pow(B2,adamT);
+  // dc grads
+  for(let c=0;c<3;c++){
+    let g=0;for(let i=0;i<N;i++)g+=res[i*3+c];
+    g*=sc;
+    mDC[c]=B1*mDC[c]+(1-B1)*g; vDC[c]=B2*vDC[c]+(1-B2)*g*g;
+    dc[c]-=LR*(mDC[c]/bc1)/(Math.sqrt(vDC[c]/bc2)+EPS);
+  }
+  for(let k=0;k<NP;k++){
+    if(!alive[k]||pruned[k]||locked[k])continue;
+    const s=Math.exp(ls[k]), inv2s2=1/(2*s*s), f=Math.exp(lf[k]);
+    const ct=Math.cos(th[k]), st=Math.sin(th[k]);
+    const [x0,x1,y0,y1]=winOf(k);
+    let gx=0,gy=0,gls=0,gth=0,glf=0,gph=0,gar=0,gag=0,gab=0;
+    const nx=x1-x0+1, Ex=EXbuf;
+    const dx0=(x0+0.5)/FIT-px[k], stepx=1/FIT;
+    for(let c=0;c<nx;c++){const dx=dx0+c*stepx;Ex[c]=Math.exp(-dx*dx*inv2s2);}
+    const dA=TAU*f*ct*stepx, cdA=Math.cos(dA), sdA=Math.sin(dA);
+    const Ak=ar[k],Gk=ag[k],Bk=ab[k];
+    for(let yy=y0;yy<=y1;yy++){
+      const dy=(yy+0.5)/FIT-py[k];
+      const Ey=Math.exp(-dy*dy*inv2s2);
+      if(Ey<1e-4)continue;
+      let arg=TAU*f*(ct*dx0+st*dy)+ph[k];
+      let C=Math.cos(arg),S=Math.sin(arg);
+      let u=ct*dx0+st*dy;
+      const du=ct*stepx;
+      let j=(yy*FIT+x0)*3;
+      const stdy=st*dy, ctdy=ct*dy;
+      for(let c=0;c<nx;c++,j+=3,u+=du){
+        const E=Ey*Ex[c];
+        if(E>=1e-4){
+          const dx=dx0+c*stepx;
+          const r0=res[j],r1=res[j+1],r2=res[j+2];
+          const EC=E*C;
+          gar+=r0*EC; gag+=r1*EC; gab+=r2*EC;
+          const gsum=r0*Ak+r1*Gk+r2*Bk;
+          const gES=gsum*E*S, gEC=gsum*EC;
+          // ∂E: x0→E dx/σ² ; ∂C: x0→ 2πf S ct
+          gx += gEC*dx*2*inv2s2 + gES*TAU*f*ct;
+          gy += gEC*dy*2*inv2s2 + gES*TAU*f*st;
+          gls+= gEC*(dx*dx+dy*dy)*2*inv2s2;    // dE/dσ·σ = E d²/σ²
+          glf+= -gES*TAU*u*f;                  // dC/df·f
+          gth+= -gES*TAU*f*(-st*dx+ctdy);
+          gph+= -gES;
+        }
+        const C2=C*cdA-S*sdA;S=S*cdA+C*sdA;C=C2;
+      }
+    }
+    const G=[gx*sc,gy*sc,gls*sc,gth*sc,glf*sc,gph*sc,gar*sc,gag*sc,gab*sc];
+    const P=[px,py,ls,th,lf,ph,ar,ag,ab];
+    for(let p=0;p<NPAR;p++){
+      const idx=k*NPAR+p, g=G[p];
+      mAd[idx]=B1*mAd[idx]+(1-B1)*g; vAd[idx]=B2*vAd[idx]+(1-B2)*g*g;
+      P[p][k]-=LR*(mAd[idx]/bc1)/(Math.sqrt(vAd[idx]/bc2)+EPS);
+    }
+    // clamps
+    const L=LAYERS[layerOf[k]];
+    px[k]=Math.min(1.08,Math.max(-0.08,px[k]));
+    py[k]=Math.min(1.08,Math.max(-0.08,py[k]));
+    ls[k]=Math.min(Math.log(L.smax),Math.max(Math.log(L.smin),ls[k]));
+    lf[k]=Math.min(Math.log(L.fmax),Math.max(Math.log(L.fmin),lf[k]));
+    ar[k]=Math.min(2,Math.max(-2,ar[k]));
+    ag[k]=Math.min(2,Math.max(-2,ag[k]));
+    ab[k]=Math.min(2,Math.max(-2,ab[k]));
+  }
+  stepCount++;
+}
+
+// exact ΔMSE of removing packet k alone (needs fresh res incl. all active)
+function marginals(){
+  for(let k=0;k<NP;k++){
+    if(!alive[k]){mval[k]=-1;continue;}
+    const s=Math.exp(ls[k]), inv2s2=1/(2*s*s), f=Math.exp(lf[k]);
+    const ct=Math.cos(th[k]), st=Math.sin(th[k]);
+    const [x0,x1,y0,y1]=winOf(k);
+    let acc=0;
+    const wasPruned=pruned[k];
+    const nx=x1-x0+1, Ex=EXbuf;
+    const dx0=(x0+0.5)/FIT-px[k], stepx=1/FIT;
+    for(let c=0;c<nx;c++){const dx=dx0+c*stepx;Ex[c]=Math.exp(-dx*dx*inv2s2);}
+    const dA=TAU*f*ct*stepx, cdA=Math.cos(dA), sdA=Math.sin(dA);
+    for(let yy=y0;yy<=y1;yy++){
+      const dy=(yy+0.5)/FIT-py[k];
+      const Ey=Math.exp(-dy*dy*inv2s2);
+      if(Ey<1e-4)continue;
+      let arg=TAU*f*(ct*dx0+st*dy)+ph[k];
+      let C=Math.cos(arg),S=Math.sin(arg);
+      let j=(yy*FIT+x0)*3;
+      for(let c=0;c<nx;c++,j+=3){
+        const E=Ey*Ex[c];
+        if(E<1e-4){const C2=C*cdA-S*sdA;S=S*cdA+C*sdA;C=C2;continue;}
+        const w=E*C;
+        // if currently rendered: removal → r'=r−p, ΔL=(p²−2rp)/NC
+        // if currently pruned: addition would give r'=r+p; its "value" = −ΔL of adding = (2rp+p²)... 
+        // we score value as reduction it provides when present: use symmetric form vs residual-without-it
+        const pr=ar[k]*w,pg=ag[k]*w,pb=ab[k]*w;
+        if(!wasPruned){
+          acc+= (pr*pr-2*res[j]*pr)+(pg*pg-2*res[j+1]*pg)+(pb*pb-2*res[j+2]*pb);
+        }else{
+          // hypothetical add: ΔL_add=(2rp+p²)/NC ; value of packet = −ΔL_add
+          acc+= -((pr*pr+2*res[j]*pr)+(pg*pg+2*res[j+1]*pg)+(pb*pb+2*res[j+2]*pb));
+        }
+        const C2=C*cdA-S*sdA;S=S*cdA+C*sdA;C=C2;
+      }
+    }
+    mval[k]=acc/NC; // >0 ⇒ removing it hurts by this much
+  }
+}
+
+/* ================= sources ================= */
+const cvT=document.getElementById('cvT'), ctxT=cvT.getContext('2d');
+const cvR=document.getElementById('cvR'), ctxR=cvR.getContext('2d');
+const gly=document.getElementById('glyphs'), ctxG=gly.getContext('2d');
+const tmp=document.createElement('canvas');tmp.width=FIT;tmp.height=FIT;
+const tctx=tmp.getContext('2d',{willReadFrequently:true});
+
+function setTargetFromCanvas(){
+  const d=tctx.getImageData(0,0,FIT,FIT).data;
+  for(let i=0;i<N;i++){
+    target[i*3]=d[i*4]/255; target[i*3+1]=d[i*4+1]/255; target[i*3+2]=d[i*4+2]/255;
+  }
+  ctxT.drawImage(tmp,0,0);
+}
+function loadImage(img){
+  const s=Math.min(img.width,img.height);
+  tctx.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,FIT,FIT);
+  setTargetFromCanvas();
+}
+function synthFace(busy){
+  tctx.fillStyle='#2a2f38';tctx.fillRect(0,0,FIT,FIT);
+  tctx.fillStyle='#c9a688';
+  tctx.beginPath();tctx.ellipse(32,34,17,22,0,0,TAU);tctx.fill();
+  tctx.fillStyle='#1d1f24';
+  tctx.beginPath();tctx.ellipse(25,28,2.6,3.4,0,0,TAU);tctx.fill();
+  tctx.beginPath();tctx.ellipse(39,28,2.6,3.4,0,0,TAU);tctx.fill();
+  tctx.strokeStyle='#7a5340';tctx.lineWidth=2;
+  tctx.beginPath();tctx.arc(32,42,7,0.25*Math.PI,0.75*Math.PI);tctx.stroke();
+  tctx.beginPath();tctx.moveTo(32,32);tctx.lineTo(30,38);tctx.stroke();
+  if(busy){ // oriented plane wave on the cheeks — the K1-fixed probe, k≈11 c/img
+    const id=tctx.getImageData(0,0,FIT,FIT), d=id.data, kf=11/FIT, ang=0.5;
+    for(let y=0;y<FIT;y++)for(let x=0;x<FIT;x++){
+      const ex=(x-32)/17,ey=(y-34)/22;
+      if(ex*ex+ey*ey<1){
+        const t=Math.sin(TAU*kf*(Math.cos(ang)*x+Math.sin(ang)*y))*26;
+        const j=(y*FIT+x)*4;d[j]+=t;d[j+1]+=t*0.85;d[j+2]+=t*0.7;
+      }
+    }
+    tctx.putImageData(id,0,0);
+  }
+  setTargetFromCanvas();
+}
+
+/* ================= UI state ================= */
+let running=true, camOn=false, gains=[1,1,1], lambda=0, showGlyphs=true;
+let selected=-1, dragging=false, resumeAfterDrag=false;
+const $=id=>document.getElementById(id);
+
+$('btnUpload').onclick=()=>$('file').click();
+$('file').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const img=new Image();img.onload=()=>{stopCam();loadImage(img);$('srcinfo').textContent=f.name+' · 64×64 center crop';};
+  img.src=URL.createObjectURL(f);
+};
+$('btnPlain').onclick=()=>{stopCam();synthFace(false);$('srcinfo').textContent='synthetic plain face (VarFaces-style)';};
+$('btnBusy').onclick=()=>{stopCam();synthFace(true);$('srcinfo').textContent='synthetic busy face · oriented wave 11 c/img';};
+$('btnReinit').onclick=()=>{initPackets();selected=-1;renderPanel();};
+$('btnRun').onclick=()=>{running=!running;paintRunBtn();};
+function paintRunBtn(){const b=$('btnRun');b.textContent='Fitting: '+(running?'on':'paused');b.classList.toggle('on',running);}
+$('btnGlyph').onclick=()=>{showGlyphs=!showGlyphs;const b=$('btnGlyph');b.textContent='Glyphs: '+(showGlyphs?'on':'off');b.classList.toggle('on',showGlyphs);};
+
+const vid=$('vid');
+$('btnCam').onclick=async()=>{
+  if(camOn){stopCam();return;}
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({video:{width:320,height:320}});
+    vid.srcObject=st;await vid.play();camOn=true;
+    $('btnCam').textContent='Stop webcam';$('btnSnap').hidden=false;
+    $('srcinfo').textContent='webcam live · warm-started fit, few steps per frame';
+  }catch(e){$('srcinfo').textContent='webcam unavailable: '+e.message;}
+};
+function stopCam(){
+  if(!camOn)return;
+  vid.srcObject.getTracks().forEach(t=>t.stop());camOn=false;
+  $('btnCam').textContent='Start webcam';$('btnSnap').hidden=true;
+}
+$('btnSnap').onclick=()=>{stopCam();$('srcinfo').textContent='frozen webcam frame';};
+
+// λ rail: t=0 → 0, else 10^(−6+4t)
+$('lam').oninput=e=>{
+  const t=e.target.value/1000;
+  lambda = t===0?0:Math.pow(10,-6+4*t);
+  $('lamval').textContent=lambda===0?'0':lambda.toExponential(1);
+  applyLambda();
+};
+function applyLambda(){
+  marginals();
+  let np=0;
+  for(let k=0;k<NP;k++){
+    if(!alive[k])continue;
+    pruned[k]=(lambda>0 && mval[k]<lambda)?1:0;
+    if(pruned[k])np++;
+  }
+  $('npruned').textContent=np;
+  drawTape();
+}
+function drawTape(){
+  const tape=$('tape');tape.innerHTML='';
+  const idx=[...Array(NP).keys()].filter(k=>alive[k]).sort((a,b)=>mval[a]-mval[b]);
+  const wsum=idx.length;
+  for(const k of idx){
+    const s=document.createElement('span');
+    s.style.width=(100/wsum)+'%';
+    s.style.background=pruned[k]?'#20242c':LAYERS[layerOf[k]].color;
+    s.style.opacity=pruned[k]?0.9:0.85;
+    tape.appendChild(s);
+  }
+}
+for(const i of[0,1,2]){
+  $('g'+i).oninput=e=>{gains[i]=e.target.value/100;$('g'+i+'v').textContent=gains[i].toFixed(2);};
+}
+
+/* glyph canvas: select / drag */
+function glyphPos(k){const S=gly.width;return[px[k]*S,py[k]*S];}
+gly.addEventListener('pointerdown',e=>{
+  const r=gly.getBoundingClientRect();
+  const X=(e.clientX-r.left)/r.width*gly.width, Y=(e.clientY-r.top)/r.height*gly.height;
+  let best=-1,bd=1e9;
+  for(let k=0;k<NP;k++){
+    if(!alive[k])continue;
+    const[gx,gyy]=glyphPos(k);const d=(gx-X)**2+(gyy-Y)**2;
+    if(d<bd){bd=d;best=k;}
+  }
+  if(best>=0&&Math.sqrt(bd)<40){
+    selected=best;dragging=true;gly.setPointerCapture(e.pointerId);
+    resumeAfterDrag=running;running=false;paintRunBtn();
+    renderPanel();
+  }else{selected=-1;renderPanel();}
+});
+gly.addEventListener('pointermove',e=>{
+  if(!dragging||selected<0)return;
+  const r=gly.getBoundingClientRect();
+  px[selected]=Math.min(1.05,Math.max(-0.05,(e.clientX-r.left)/r.width));
+  py[selected]=Math.min(1.05,Math.max(-0.05,(e.clientY-r.top)/r.height));
+});
+gly.addEventListener('pointerup',()=>{
+  dragging=false;
+  if(resumeAfterDrag){running=true;paintRunBtn();}
+});
+
+function renderPanel(){
+  const p=$('pkpanel');
+  if(selected<0){p.innerHTML='<span class="none">none — click a glyph</span>';return;}
+  const k=selected,L=LAYERS[layerOf[k]];
+  const f=Math.exp(lf[k]).toFixed(1), s=Math.exp(ls[k]).toFixed(3);
+  p.innerHTML=`
+   <div class="stat"><b>#${k} · <span style="color:${L.color}">${['coarse','mid','fine'][layerOf[k]]}</span></b>
+   <span class="v">val ${mval[k].toExponential(1)}</span></div>
+   <div class="rail"><label><span>orientation θ</span><span id="pthv">${(th[k]*180/Math.PI).toFixed(0)}°</span></label>
+     <input type="range" id="pth" min="0" max="180" value="${th[k]*180/Math.PI}"></div>
+   <div class="rail"><label><span>frequency</span><span id="pfv">${f} c/img</span></label>
+     <input type="range" id="pf" min="${L.fmin*10}" max="${L.fmax*10}" value="${Math.exp(lf[k])*10}"></div>
+   <div class="rail"><label><span>size σ</span><span id="psv">${s}</span></label>
+     <input type="range" id="ps" min="${L.smin*1000}" max="${L.smax*1000}" value="${Math.exp(ls[k])*1000}"></div>
+   <div class="rail"><label><span>phase</span><span id="ppv">${(ph[k]*180/Math.PI).toFixed(0)}°</span></label>
+     <input type="range" id="pp" min="0" max="360" value="${(ph[k]%TAU+TAU)%TAU*180/Math.PI}"></div>
+   <div class="rail"><label><span>amplitude ×</span><span id="pav">1.00</span></label>
+     <input type="range" id="pa" min="0" max="300" value="100"></div>
+   <div class="row">
+     <label style="display:flex;gap:5px;align-items:center;color:var(--mut)">
+       <input type="checkbox" id="plock" ${locked[k]?'checked':''}> lock (optimizer skips it)</label>
+     <button id="pdel">Delete packet</button>
+   </div>`;
+  $('pth').oninput=e=>{th[k]=e.target.value*Math.PI/180;$('pthv').textContent=e.target.value+'°';};
+  $('pf').oninput=e=>{lf[k]=Math.log(e.target.value/10);$('pfv').textContent=(e.target.value/10).toFixed(1)+' c/img';};
+  $('ps').oninput=e=>{ls[k]=Math.log(e.target.value/1000);$('psv').textContent=(e.target.value/1000).toFixed(3);};
+  $('pp').oninput=e=>{ph[k]=e.target.value*Math.PI/180;$('ppv').textContent=e.target.value+'°';};
+  let lastA=1;
+  $('pa').oninput=e=>{const g=e.target.value/100,m=g/(lastA||1e-6);lastA=g;
+    ar[k]*=m;ag[k]*=m;ab[k]*=m;$('pav').textContent=g.toFixed(2);};
+  $('plock').onchange=e=>{locked[k]=e.target.checked?1:0;};
+  $('pdel').onclick=()=>{alive[k]=0;selected=-1;renderPanel();};
+}
+
+/* ================= draw ================= */
+const imgR=ctxR.createImageData(FIT,FIT);
+function drawRecon(){
+  const useG=gains[0]!==1||gains[1]!==1||gains[2]!==1;
+  let buf=recon;
+  if(useG){renderInto(dispBuf,true);buf=dispBuf;}
+  const d=imgR.data;
+  for(let i=0;i<N;i++){
+    d[i*4]  =Math.max(0,Math.min(255,buf[i*3]*255));
+    d[i*4+1]=Math.max(0,Math.min(255,buf[i*3+1]*255));
+    d[i*4+2]=Math.max(0,Math.min(255,buf[i*3+2]*255));
+    d[i*4+3]=255;
+  }
+  ctxR.putImageData(imgR,0,0);
+}
+const dispBuf=new Float32Array(NC);
+function drawGlyphs(){
+  const S=gly.width;ctxG.clearRect(0,0,S,S);
+  if(!showGlyphs)return;
+  for(let k=0;k<NP;k++){
+    if(!alive[k])continue;
+    const L=LAYERS[layerOf[k]];
+    const x=px[k]*S,y=py[k]*S,r=Math.exp(ls[k])*S*1.6;
+    const amp=Math.hypot(ar[k],ag[k],ab[k]);
+    ctxG.globalAlpha=pruned[k]?0.15:Math.min(0.9,0.25+amp*1.4);
+    ctxG.strokeStyle=L.color;ctxG.lineWidth=k===selected?2.5:1;
+    ctxG.beginPath();ctxG.arc(x,y,Math.max(3,r),0,TAU);ctxG.stroke();
+    const dx=Math.cos(th[k])*Math.max(4,r),dy=Math.sin(th[k])*Math.max(4,r);
+    ctxG.beginPath();ctxG.moveTo(x-dx,y-dy);ctxG.lineTo(x+dx,y+dy);ctxG.stroke();
+    if(k===selected){ctxG.globalAlpha=1;ctxG.strokeStyle='#fff';
+      ctxG.beginPath();ctxG.arc(x,y,Math.max(3,r)+3,0,TAU);ctxG.stroke();}
+  }
+  ctxG.globalAlpha=1;
+}
+
+/* ================= loop ================= */
+let msPer=0;
+function frame(){
+  if(camOn&&vid.videoWidth>0){
+    const s=Math.min(vid.videoWidth,vid.videoHeight);
+    tctx.drawImage(vid,(vid.videoWidth-s)/2,(vid.videoHeight-s)/2,s,s,0,0,FIT,FIT);
+    setTargetFromCanvas();
+  }
+  const steps=camOn?3:6;
+  if(running){
+    const t0=performance.now();
+    for(let i=0;i<steps;i++)fitStep();
+    msPer=0.9*msPer+0.1*(performance.now()-t0)/steps;
+    if(stepCount%20===0)applyLambda();
+  }else{
+    renderInto(recon,false);
+    for(let i=0;i<NC;i++)res[i]=recon[i]-target[i];
+  }
+  drawRecon();drawGlyphs();
+  // ledger
+  $('psnr').textContent=(10*Math.log10(1/Math.max(mse,1e-9))).toFixed(2)+' dB';
+  $('step').textContent=stepCount;
+  $('mspstep').textContent=msPer?msPer.toFixed(2):'—';
+  const cnt=[[0,0],[0,0],[0,0]];
+  for(let k=0;k<NP;k++){if(!alive[k])continue;cnt[layerOf[k]][1]++;if(!pruned[k])cnt[layerOf[k]][0]++;}
+  $('ac0').textContent=cnt[0][0]+' / '+cnt[0][1];
+  $('ac1').textContent=cnt[1][0]+' / '+cnt[1][1];
+  $('ac2').textContent=cnt[2][0]+' / '+cnt[2][1];
+  $('npk').textContent='· '+(cnt[0][0]+cnt[1][0]+cnt[2][0])+' packets live';
+  requestAnimationFrame(frame);
+}
+
+synthFace(true);
+initPackets();
+paintRunBtn();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

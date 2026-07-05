@@ -3,6 +3,9 @@
 EDIT: Live HTML page where you can play with slapstack derived idea:
 at https://anttiluode.github.io/Slapstack/
 
+EDIT: Added opus 'paper' about object seperation in gabor space. I think 
+that is the next direction. Of course well traversed already. 
+
 ![pic](pic.png)
 
 Lineage: the Gabor-splat VAE (single layer), the Clutch's philosophy of compute-on-demand,

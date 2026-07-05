@@ -1,5 +1,10 @@
 # splatstack — a self-sparsifying stack of Gabor-packet layers
 
+EDIT: Live HTML page where you can play with slapstack derived idea:
+at https://anttiluode.github.io/Slapstack/
+
+![pic](pic.png)
+
 Lineage: the Gabor-splat VAE (single layer), the Clutch's philosophy of compute-on-demand,
 and the Entrain ledger discipline. *Do not hype. Do not lie. Just show.*
 
